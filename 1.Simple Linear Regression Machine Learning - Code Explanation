@@ -1,0 +1,33 @@
+import pandas as pd #Pandas is a library which renders functions related to Database.
+dataset=pd.read_csv("Salary_Data.csv") #This function read.csv, pd class is called and parameter is to pass the dataset file
+dataset # will return the dataset value present in the memory
+independent=dataset[["YearsExperience"]] #This variable is to extract the input variable (yrs of exp saved in dataset) seperately, this is to train the model for this scenario.
+independent
+dependent=dataset[["Salary"]] #This variable is to extract the output variable (Salary saved in dataset) seperately, this is to train the model for this scenario.
+dependent
+from sklearn.model_selection import train_test_split #The train_test_split function from the sklearn.model_selection module is used to split a dataset into two parts, one for training a machine learning model and one for testing it.
+X_train,X_test,y_train,y_test=train_test_split(independent, dependent,test_size=0.30,random_state=0) #Variables defined for Training data for the independent and Dependent variables and Testing data for the Independent and Dependent Variables
+from sklearn.linear_model import LinearRegression #It's just a procedure, have to call the function (fit method) to give the output
+regressor=LinearRegression() #Initiate an object of the LinearRegression class.
+regressor.fit(X_train,y_train) #Trains the model using the training data, establishing the relationship between the features and the target variable.
+LinearRegression()
+weight=regressor.coef_ #This line assigns the coefficients of the linear regression model to the variable weight.
+weight  #Displays the values the model has learned
+array([[9360.26128619]])
+bais=regressor.intercept_ # This assigns the intercept of the linear regression model to the variable bais.
+bais #Displays the intercept value
+array([[9360.26128619]])
+bais=regressor.intercept_ # This assigns the intercept of the linear regression model to the variable bais.
+bais #Displays the intercept value
+array([26777.3913412])
+y_pred=regressor.predict(X_test) #This method uses the trained linear regression model (stored in regressor variable) to predict the target values (y_pred) based on the input features (X_test). NOte this model has not seen X-test before.
+y_pred #The value from X-test predict is assigned to this variable.
+from sklearn.metrics import r2_score #evaluation metrics - Process to identify to cross check if the model is the best using r2
+r_score=r2_score(y_test,y_pred)
+r_score
+import pickle #This module is used to save the loaded models.
+filename="finalised_model_linear.sav" #in the form of SAV
+pickle.dump(regressor,open(filename,'wb')) #Opens a file with the name "FILENAME" in write-binary mode.
+loaded_model=pickle.load(open("finalised_model_linear.sav",'rb'))
+result=loaded_model.predict([[18]]) #loads the saved model, and loaded_model.predict([[18]]) predicts the target value for the input feature 18 using the loaded model.
+array([[195262.09449268]]
